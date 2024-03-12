@@ -1,4 +1,4 @@
-import { API_URLS, LOCALSTORAGE_TOKEN_KEY } from '../utils/index.js';
+import { API_URLS, LOCALSTORAGE_TOKEN_KEY } from '../utils';
 
 const customFetch = async (url, { body, ...customConfig }) => {
   const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
@@ -27,7 +27,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
   try {
     const response = await fetch(url, config);
     const data = await response.json();
-    if (response.success) {
+    if (data.success) {
       return {
         data: data.data,
         success: true,
@@ -48,3 +48,4 @@ const getPosts = (page = 1, limit = 5) => {
     method: 'GET',
   });
 };
+export { getPosts };
