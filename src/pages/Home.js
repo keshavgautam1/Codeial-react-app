@@ -1,9 +1,29 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import { UserPic, LikePic, CommentPic } from '../assets/images/index';
-import { Comment } from '../components/index.js';
+import { Comment, Loader } from '../components';
+import { getPosts } from '../api/index.js';
 
-const Home = ({ posts }) => {
+const Home = ({ auth }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+      // console.log('response', response);
+
+      if (response.success) {
+        setPosts(response.data.posts);
+      }
+      setLoading(false);
+    };
+    fetchPosts();
+  }, []);
+  if (loading) {
+    return <Loader />;
+  }
   // console.log(posts);
   return (
     <div className={styles.postsList}>

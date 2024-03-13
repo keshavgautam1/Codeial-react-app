@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { UserPic } from '../assets/images/index';
 import styles from '../styles/navbar.module.css';
+import { useAuth } from '../hooks';
 
 const Navbar = () => {
+  const auth = useAuth();
   return (
     <div className={styles.nav}>
       <div className={styles.leftDiv}>
@@ -13,24 +15,34 @@ const Navbar = () => {
           />
         </Link>
       </div>
+
       <div className={styles.rightNav}>
-        <div className={styles.user}>
-          <Link href="/">
-            <img src={UserPic} alt="" className={styles.userDp} />
-          </Link>
-          <span>UserName</span>
-        </div>
+        {auth.user && (
+          <div className={styles.user}>
+            <Link href="/">
+              <img src={UserPic} alt="" className={styles.userDp} />
+            </Link>
+            <span>{auth.user.name}</span>
+          </div>
+        )}
+
         <div className={styles.navLinks}>
           <ul>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/logout">Logout</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
+            {auth.user ? (
+              <>
+                <li onClick={auth.logout}>Logout</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
