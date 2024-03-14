@@ -36,7 +36,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
 
     throw new Error(data.message);
   } catch (error) {
-    console.error('error');
+    console.error(error);
     return {
       message: error.message,
       success: false,
@@ -58,10 +58,22 @@ const login = (email, password) => {
 };
 
 const register = async (name, email, password, confirmPassword) => {
-  return customFetch(API_URLS.signup(), {
-    method: 'POST',
-    body: { name, email, password, confirm_password: confirmPassword },
-  });
+  try {
+    const response = await customFetch(API_URLS.signup(), {
+      method: 'POST',
+      body: { name, email, password, confirm_password: confirmPassword },
+    });
+
+    return response;
+  } catch (error) {
+    console.error(error);
+    console.log('kya me yaha hun api me');
+    return {
+      message: error.message,
+      success: false,
+    };
+  }
 };
 
+console.log('register', register);
 export { getPosts, login, register };
