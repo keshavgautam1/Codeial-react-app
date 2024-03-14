@@ -1,7 +1,7 @@
 import styles from '../styles/login.module.css';
 import { useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { useAuth } from '../hooks/index.js';
+import { useAuth } from '../hooks';
 
 const Login = () => {
   const [email, setEmail] = useState('');

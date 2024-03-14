@@ -1,11 +1,12 @@
 import { createContext } from 'react';
-import { useProvideAuth } from '../hooks/index.js';
+import { useProvideAuth } from '../hooks';
 
 const initialState = {
   user: null,
   login: () => {},
   logout: () => {},
   loading: true,
+  signup: () => {},
 };
 
 const AuthContext = createContext(initialState);

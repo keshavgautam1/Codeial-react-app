@@ -26,12 +26,14 @@ const customFetch = async (url, { body, ...customConfig }) => {
   try {
     const response = await fetch(url, config);
     const data = await response.json();
+
     if (data.success) {
       return {
         data: data.data,
         success: true,
       };
     }
+
     throw new Error(data.message);
   } catch (error) {
     console.error('error');
@@ -47,7 +49,6 @@ const getPosts = (page = 1, limit = 5) => {
     method: 'GET',
   });
 };
-export {};
 
 const login = (email, password) => {
   return customFetch(API_URLS.login(), {
@@ -55,4 +56,12 @@ const login = (email, password) => {
     body: { email, password },
   });
 };
-export { getPosts, login };
+
+const register = async (name, email, password, confirmPassword) => {
+  return customFetch(API_URLS.signup(), {
+    method: 'POST',
+    body: { name, email, password, confirm_password: confirmPassword },
+  });
+};
+
+export { getPosts, login, register };

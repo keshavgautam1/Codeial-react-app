@@ -5,7 +5,7 @@ import { UserPic, LikePic, CommentPic } from '../assets/images/index';
 import { Comment, Loader } from '../components';
 import { getPosts } from '../api/index.js';
 
-const Home = ({ auth }) => {
+const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
