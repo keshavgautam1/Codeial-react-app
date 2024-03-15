@@ -1,6 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
+
 import { useAuth } from '../hooks';
 import styles from '../styles/login.module.css';
 
@@ -12,7 +13,7 @@ const Signup = () => {
   const [signingUp, setSigningUp] = useState('');
   const { addToast } = useToasts();
   const auth = useAuth();
-  const navigate = useNavigate();
+  const nevigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ const Signup = () => {
     const response = await auth.signup(name, email, password, confirmPassword);
 
     if (response.success) {
-      navigate.push('/login');
+      nevigate.push('/login');
       setSigningUp(false);
 
       return addToast('User registered successfully, please login now', {
@@ -84,7 +85,7 @@ const Signup = () => {
       </div>
       <div className={styles.field}>
         <input
-          placeholder="Password"
+          placeholder="Confirm password"
           type="password"
           required
           value={password}
@@ -93,7 +94,7 @@ const Signup = () => {
       </div>
       <div className={styles.field}>
         <input
-          placeholder="Confirm Password"
+          placeholder="Password"
           type="password"
           required
           value={confirmPassword}
