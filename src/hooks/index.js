@@ -1,7 +1,11 @@
 import { useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from '../providers/AuthProvider';
-import { register as userSignup, login as userLogin } from '../api';
+import {
+  editProfile,
+  register as userSignup,
+  login as userLogin,
+} from '../api';
 import {
   setItemInLocalStorage,
   LOCALSTORAGE_TOKEN_KEY,
@@ -28,6 +32,26 @@ const useProvideAuth = () => {
 
     setLoading(false);
   }, []);
+
+  const updateUser = async (userId, name, password, confirmPassword) => {
+    const response = await editProfile(userId, name, password, confirmPassword);
+
+    if (response.success) {
+      setUser(response.data.user);
+      setItemInLocalStorage(
+        LOCALSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  };
 
   const login = async (email, password) => {
     const response = await userLogin(email, password);
@@ -69,6 +93,7 @@ const useProvideAuth = () => {
     signup,
     logout,
     loading,
+    updateUser,
   };
 };
 

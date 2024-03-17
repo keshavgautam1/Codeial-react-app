@@ -1,4 +1,5 @@
 import styles from '../styles/login.module.css';
+import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { useAuth } from '../hooks';
@@ -35,6 +36,11 @@ const Login = () => {
     }
     setLoggingIn(false);
   };
+
+  if (auth.user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <span className={styles.loginSignupHeader}>Log in</span>

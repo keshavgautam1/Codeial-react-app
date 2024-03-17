@@ -7,6 +7,7 @@ const initialState = {
   logout: () => {},
   loading: true,
   signup: () => {},
+  updateUser: () => {},
 };
 
 const AuthContext = createContext(initialState);

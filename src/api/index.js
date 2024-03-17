@@ -1,16 +1,15 @@
-import { API_URLS, getFormBody, LOCALSTORAGE_TOKEN_KEY } from '../utils';
+import { API_URLS, getFormBody } from '../utils';
+import { LOCALSTORAGE_TOKEN_KEY } from '../utils/constants';
 
 const customFetch = async (url, { body, ...customConfig }) => {
   const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
-
   const headers = {
-    'content-type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/x-www-form-urlencoded',
   };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
-
   const config = {
     ...customConfig,
     headers: {
@@ -57,11 +56,18 @@ const login = (email, password) => {
   });
 };
 
-const register = (name, email, password, confirm_password) => {
+const register = (name, email, password, confirmPassword) => {
   return customFetch(API_URLS.signup(), {
     method: 'POST',
-    body: { email, name, password, confirm_password },
+    body: { email, name, password, confirm_password: confirmPassword },
   });
 };
 
-export { getPosts, login, register };
+const editProfile = (userId, name, password, confirmPassword) => {
+  return customFetch(API_URLS.signup(), {
+    method: 'POST',
+    body: { id: userId, name, password, confirm_password: confirmPassword },
+  });
+};
+
+export { getPosts, login, register, editProfile };
