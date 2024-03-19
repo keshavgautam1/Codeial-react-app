@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import { UserPic, LikePic, CommentPic } from '../assets/images/index';
@@ -33,7 +34,17 @@ const Home = () => {
             <div className={styles.postAvatar}>
               <img src={UserPic} alt="user-pic" />
               <div>
-                <span className={styles.postAuthor}>{post.user.name}</span>
+                <Link
+                  to={{
+                    pathname: `/user/${post.user._id}`,
+                    state: {
+                      user: post.user,
+                    },
+                  }}
+                  className={styles.postAuthor}
+                >
+                  {post.user.name}
+                </Link>
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>
