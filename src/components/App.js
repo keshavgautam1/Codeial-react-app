@@ -1,8 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { PrivateRoute } from '../Helper/PrivateRoute.js';
 import { useAuth } from '../hooks/index.js';
 import { Home, Login, Settings, Signup, UserProfile } from '../pages';
 import { Loader, Navbar } from '../components/index.js';
+import { Navigate } from 'react-router-dom';
+
+function PrivateRoute({ children, ...rest }) {
+  const auth = useAuth();
+
+  return (
+    <Route
+      {...rest}
+      render={() => (auth.user ? children : <Navigate to="/login" replace />)}
+    />
+  );
+}
 
 const Page404 = () => {
   return <h1>404</h1>;
@@ -22,16 +33,16 @@ function App() {
           <Route exact path="/" element={<Home posts={[]} />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Signup />} />
-          <Route
+          <PrivateRoute
             exact
             path="/settings"
-            element={<PrivateRoute outlet={<Settings />} />}
-          />
-          <Route
+            element={<Settings />}
+          ></PrivateRoute>
+          <PrivateRoute
             exact
-            path="/user/:userId/*"
-            element={<PrivateRoute outlet={<UserProfile />} />}
-          />
+            path="/user/:userId"
+            element={<UserProfile />}
+          ></PrivateRoute>
 
           <Route path="*" element={<Page404 />} />
         </Routes>

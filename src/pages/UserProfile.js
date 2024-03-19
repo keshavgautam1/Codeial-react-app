@@ -5,6 +5,7 @@ import { UserPic } from '../assets/images';
 
 const UserProfile = () => {
   const location = useLocation();
+  console.log('location', location);
   const user = {};
 
   return (
