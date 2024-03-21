@@ -57,6 +57,19 @@ const UserProfile = () => {
 
     const response = await addFriend(userId);
 
+    if (response.success) {
+      const { friendship } = response.data;
+
+      auth.updateUserFriends(true, friendship);
+      addToast('Friend added successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+
     setRequestInProgress(false);
   };
   return (
@@ -78,9 +91,21 @@ const UserProfile = () => {
 
       <div className={styles.btnGrp}>
         {checkIfUserIsAFriend() ? (
-          <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleRemoveFriendClick}
+          >
+            {requestInProgress ? 'AdRemoving Friend...' : 'Remove Friend'}
+            Remove Friend
+          </button>
         ) : (
-          <button className={`button ${styles.saveBtn}`}>Add Friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleAddFriendClick}
+            disabled={requestInProgress}
+          >
+            {requestInProgress ? 'Adding Friend...' : 'Add Friend'}
+          </button>
         )}
       </div>
     </div>
