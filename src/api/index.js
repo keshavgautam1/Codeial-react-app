@@ -70,10 +70,10 @@ const editProfile = (userId, name, password, confirmPassword) => {
   });
 };
 
-const fetchUserProfie = (userId) => {
+const fetchUserProfile = (userId) => {
   return customFetch(API_URLS.userInfo(userId), {
     method: 'GET',
   });
 };
 
-export { getPosts, login, register, editProfile, fetchUserProfie };
+export { getPosts, login, register, editProfile, fetchUserProfile };

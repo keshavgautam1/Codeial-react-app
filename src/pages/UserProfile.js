@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/settings.module.css';
 import { useAuth } from '../hooks';
 import { UserPic } from '../assets/images';
-import { fetchUserProfie } from '../api';
+import { fetchUserProfile } from '../api';
 import { Loader } from '../components';
 
 const UserProfile = () => {
@@ -18,7 +18,7 @@ const UserProfile = () => {
   console.log('userId', userId);
   useEffect(() => {
     const getUser = async () => {
-      const response = await fetchUserProfie(userId);
+      const response = await fetchUserProfile(userId);
 
       if (response.success) {
         setUser(response.data.user);
