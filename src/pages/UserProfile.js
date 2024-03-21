@@ -6,7 +6,6 @@ import { useAuth } from '../hooks';
 import { UserPic } from '../assets/images';
 import { addFriend, fetchUserProfile } from '../api';
 import { Loader } from '../components';
-import { addFriend } from '../api/index.js';
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
