@@ -5,6 +5,7 @@ import {
   editProfile,
   register as userSignup,
   login as userLogin,
+  fetchUserFriends,
 } from '../api';
 import {
   setItemInLocalStorage,
@@ -22,15 +23,29 @@ const useProvideAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    const getUser = async () => {
+      const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
-    if (userToken) {
-      const user = jwtDecode(userToken);
+      if (userToken) {
+        const user = jwtDecode(userToken);
+        const response = await fetchUserFriends();
 
-      setUser(user);
-    }
+        let friends = [];
+        if (response.success) {
+          friends = response.data.friends;
+        } else {
+          friends = [];
+        }
 
-    setLoading(false);
+        setUser({
+          ...user,
+          friends,
+        });
+      }
+
+      setLoading(false);
+    };
+    getUser();
   }, []);
 
   const updateUser = async (userId, name, password, confirmPassword) => {
@@ -87,6 +102,16 @@ const useProvideAuth = () => {
     }
   };
 
+  const updateUserFriends = (addFriend, friend) => {
+    if (addFriend) {
+      setUser({
+        ...user,
+        friends: [...user.friends, friend],
+      });
+      return;
+    }
+  };
+
   return {
     user,
     login,
@@ -94,6 +119,7 @@ const useProvideAuth = () => {
     logout,
     loading,
     updateUser,
+    updateUserFriends,
   };
 };
 

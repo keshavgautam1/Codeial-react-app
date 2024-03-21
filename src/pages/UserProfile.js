@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/settings.module.css';
 import { useAuth } from '../hooks';
 import { UserPic } from '../assets/images';
-import { fetchUserProfile } from '../api';
+import { addFriend, fetchUserProfile } from '../api';
 import { Loader } from '../components';
+import { addFriend } from '../api/index.js';
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [requestInProgress, setRequestInProgress] = useState(false);
   const { userId } = useParams();
   const { addToast } = useToasts();
   const navigate = useNavigate();
@@ -49,6 +51,15 @@ const UserProfile = () => {
     return false;
   };
 
+  const handleRemoveFriendClick = () => {};
+
+  const handleAddFriendClick = async () => {
+    setRequestInProgress(true);
+
+    const response = await addFriend(userId);
+
+    setRequestInProgress(false);
+  };
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>

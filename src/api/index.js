@@ -76,4 +76,24 @@ const fetchUserProfile = (userId) => {
   });
 };
 
-export { getPosts, login, register, editProfile, fetchUserProfile };
+const fetchUserFriends = () => {
+  return customFetch(API_URLS.friends(), {
+    method: 'GET',
+  });
+};
+
+const addFriend = (userId) => {
+  return customFetch(API_URLS.createFriendship(userId), {
+    method: 'POST',
+  });
+};
+
+export {
+  getPosts,
+  login,
+  register,
+  editProfile,
+  fetchUserProfile,
+  fetchUserFriends,
+  addFriend,
+};
