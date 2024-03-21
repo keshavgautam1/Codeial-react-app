@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/settings.module.css';
 import { useAuth } from '../hooks';
 import { UserPic } from '../assets/images';
-import { addFriend, fetchUserProfile } from '../api';
+import { removeFriend, addFriend, fetchUserProfile } from '../api';
 import { Loader } from '../components';
 
 const UserProfile = () => {
@@ -50,7 +50,28 @@ const UserProfile = () => {
     return false;
   };
 
-  const handleRemoveFriendClick = () => {};
+  const handleRemoveFriendClick = async () => {
+    setRequestInProgress(true);
+
+    const response = await removeFriend(userId);
+
+    if (response.success) {
+      const friendship = auth.user.friends.filter(
+        (friend) => friend.to_user._id === userId
+      );
+
+      auth.updateUserFriends(false, friendship[0]);
+      addToast('Friend Removed Successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+
+    setRequestInProgress(false);
+  };
 
   const handleAddFriendClick = async () => {
     setRequestInProgress(true);

@@ -87,6 +87,11 @@ const addFriend = (userId) => {
     method: 'POST',
   });
 };
+const removeFriend = (userId) => {
+  return customFetch(API_URLS.removeFriend(userId), {
+    method: 'POST',
+  });
+};
 
 export {
   getPosts,
@@ -96,4 +101,5 @@ export {
   fetchUserProfile,
   fetchUserFriends,
   addFriend,
+  removeFriend,
 };
