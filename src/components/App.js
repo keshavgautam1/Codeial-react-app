@@ -12,7 +12,7 @@ import { Navigate } from 'react-router-dom';
 function PrivateRoute() {
   const auth = useAuth();
 
-  return auth.user ? <Outlet /> : <Navigate to="/login" />;
+  return auth.user ? <Navigate to="/login" /> : <Outlet />;
 }
 
 const Page404 = () => {
@@ -32,6 +32,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home posts={[]} />} />
           <Route exact path="/login" element={<Login />} />
+
           <Route element={<PrivateRoute />}>
             <Route exact path="/register" element={<Signup />} />
             <Route exact path="/settings" element={<Settings />} />
