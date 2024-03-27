@@ -101,6 +101,16 @@ const addPost = (content) => {
   });
 };
 
+const createComment = async (content, postId) => {
+  return customFetch(API_URLS.comment(), {
+    method: 'POST',
+    body: {
+      post_id: postId,
+      content,
+    },
+  });
+};
+
 export {
   getPosts,
   login,
@@ -111,4 +121,5 @@ export {
   addFriend,
   removeFriend,
   addPost,
+  createComment,
 };
