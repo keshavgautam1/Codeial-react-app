@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import { UserPic, LikePic, CommentPic } from '../assets/images/index';
-import { Comment, Loader, FriendsList } from '../components';
+import { Comment, Loader, FriendsList, CreatePost } from '../components';
 import { getPosts } from '../api/index.js';
 import { useAuth } from '../hooks/index.js';
 
@@ -30,6 +30,7 @@ const Home = () => {
   return (
     <div className={styles.home}>
       <div className={styles.postsList}>
+        <CreatePost />
         {posts.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
@@ -55,7 +56,7 @@ const Home = () => {
               <div className={styles.postActions}>
                 <div className={styles.postLike}>
                   <img src={LikePic} alt="likes-icon" />
-                  <span>5</span>
+                  <span>{post.likes.length}</span>
                 </div>
 
                 <div className={styles.postCommentsIcon}>
