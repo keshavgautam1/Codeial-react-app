@@ -117,6 +117,12 @@ const toggleLike = (itemId, itemType) => {
   });
 };
 
+const searchUsers = (searchText) => {
+  return customFetch(API_URLS.searchUsers(searchText), {
+    method: 'GET',
+  });
+};
+
 export {
   getPosts,
   login,
@@ -129,4 +135,5 @@ export {
   addPost,
   createComment,
   toggleLike,
+  searchUsers,
 };
