@@ -37,20 +37,32 @@ const Post = ({ post }) => {
   };
 
   const handlePostLikeClick = async () => {
-    const response = await toggleLike(post._id, 'Post');
+    try {
+      const response = await toggleLike(post._id, 'Post');
 
-    if (response.success) {
-      if (response.data.deleted) {
-        addToast('Like removed successfully', {
+      if (response.success) {
+        const updatedPost = {
+          ...post,
+          liked: !post.liked, // Toggle the liked status
+          likes: response.data.likes, // Update the likes count
+        };
+
+        const updatedPosts = posts.data.map((p) =>
+          p._id === updatedPost._id ? updatedPost : p
+        );
+
+        posts.addPostToState(updatedPosts);
+
+        addToast('Post liked/unliked successfully', {
           appearance: 'success',
         });
       } else {
-        addToast('Liked successfully', {
-          appearance: 'success',
+        addToast(response.message, {
+          appearance: 'error',
         });
       }
-    } else {
-      addToast(response.message, {
+    } catch (error) {
+      addToast('Failed to toggle like status', {
         appearance: 'error',
       });
     }

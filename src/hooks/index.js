@@ -7,6 +7,7 @@ import {
   login as userLogin,
   fetchUserFriends,
   getPosts,
+  toggleLike,
 } from '../api';
 import {
   setItemInLocalStorage,
