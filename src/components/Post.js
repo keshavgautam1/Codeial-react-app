@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
-import { createComment } from '../api';
+import { createComment, toggleLike } from '../api';
 import { usePosts } from '../hooks';
 import styles from '../styles/home.module.css';
-import { Comment } from './Comment';
+import { Comment } from './index';
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState('');
@@ -36,6 +36,26 @@ const Post = ({ post }) => {
     }
   };
 
+  const handlePostLikeClick = async () => {
+    const response = await toggleLike(post._id, 'Post');
+
+    if (response.success) {
+      if (response.data.deleted) {
+        addToast('Like removed successfully', {
+          appearance: 'success',
+        });
+      } else {
+        addToast('Liked successfully', {
+          appearance: 'success',
+        });
+      }
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+  };
+
   return (
     <div className={styles.postWrapper} key={`post-${post._id}`}>
       <div className={styles.postHeader}>
@@ -60,7 +80,9 @@ const Post = ({ post }) => {
 
         <div className={styles.postActions}>
           <div className={styles.postLike}>
-            <img src={LikePic} alt="likes-icon" />
+            <button onClick={handlePostLikeClick}>
+              <img src={LikePic} alt="likes-icon" />
+            </button>
             <span>{post.likes.length}</span>
           </div>
 
@@ -74,7 +96,7 @@ const Post = ({ post }) => {
             placeholder="Start typing a comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            onKeyPress={handleAddComment}
+            onKeyDown={handleAddComment}
           />
         </div>
 
