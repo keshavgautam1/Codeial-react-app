@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
-import { UserPic } from '../assets/images/index';
+import { UserPic, SearchIcon } from '../assets/images/index';
 import styles from '../styles/navbar.module.css';
 import { useAuth } from '../hooks';
+import { useState } from 'react';
 
 const Navbar = () => {
+  const [results, setResults] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const auth = useAuth();
   return (
     <div className={styles.nav}>
@@ -14,6 +17,32 @@ const Navbar = () => {
             alt="App Logo"
           />
         </Link>
+      </div>
+
+      <div className={styles.searchContainer}>
+        <img className={styles.searchIcon} src={SearchIcon} alt="Search Icon" />
+        <input
+          placeholder="Search users"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        {results.length > 0 && (
+          <div className={styles.searchResults}>
+            <ul>
+              {results.map((user) => (
+                <li
+                  className={styles.searchResultsRow}
+                  key={`user-${user._id}`}
+                >
+                  <Link to={`/users/${user._id}`}>
+                    <img src={UserPic} alt="user img" />
+                    <span>{user.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className={styles.rightNav}>
