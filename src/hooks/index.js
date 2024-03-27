@@ -1,11 +1,12 @@
 import { useContext, useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { AuthContext } from '../providers/AuthProvider';
+import { AuthContext, PostsContext } from '../providers';
 import {
   editProfile,
   register as userSignup,
   login as userLogin,
   fetchUserFriends,
+  getPosts,
 } from '../api';
 import {
   setItemInLocalStorage,
@@ -130,4 +131,32 @@ const useProvideAuth = () => {
   };
 };
 
-export { useProvideAuth, useAuth };
+const usePosts = () => {
+  return useContext(PostsContext);
+};
+const useProvidePosts = () => {
+  const [posts, setPosts] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+
+      if (response.success) {
+        setPosts(response.data.posts);
+      }
+      setLoading(false);
+    };
+    fetchPosts();
+  }, []);
+
+  const addPostToState = () => {};
+
+  return {
+    data: posts,
+    loading,
+    addPostToState,
+  };
+};
+
+export { useProvideAuth, useAuth, useProvidePosts, usePosts };

@@ -1,29 +1,15 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import styles from '../styles/home.module.css';
 import { UserPic, LikePic, CommentPic } from '../assets/images/index';
 import { Comment, Loader, FriendsList, CreatePost } from '../components';
-import { getPosts } from '../api/index.js';
-import { useAuth } from '../hooks/index.js';
+import { useAuth, usePosts } from '../hooks';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const auth = useAuth();
+  const posts = usePosts();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-      setLoading(false);
-    };
-    fetchPosts();
-  }, []);
-  if (loading) {
+  if (posts.loading) {
     return <Loader />;
   }
 
@@ -31,7 +17,7 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.postsList}>
         <CreatePost />
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
               <div className={styles.postAvatar}>
